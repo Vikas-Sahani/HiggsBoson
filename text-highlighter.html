@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word highlighter JS</title>
+    <style>
+        #paragraph-input {
+            border: 2px solid rgb(150, 0, 0);
+            width: 400px;
+            height: 300px;
+            padding: 8px 16px;
+            overflow: scroll;
+        }
+
+        .highlighted-txt {
+            color: rgb(0, 0, 0);
+            background-color: rgb(241, 255, 45);
+        }
+    </style>
+</head>
+<body>
+    <label for="paragraph-input">Enter paragraph here</label>
+    <div id="paragraph-input" contenteditable="True">Enter text here</div>
+    <br />
+    <br />
+
+    <div>Total matches:- <span id="words-counter">0</span></div>
+    <br />
+
+    <label for="word-input">Enter word to be higlighted here</label>
+    <input type="text" id="word-input" >
+    <br />
+    <br />
+
+    <label for="ignore-case">Ignore case?</label>
+    <input type="checkbox" id="ignore-case" />
+    <br />
+    <br />     
+
+
+    <script>
+        const paraInput = document.querySelector("#paragraph-input");
+const wordInput = document.querySelector("#word-input");
+const ignoreCase = document.querySelector("#ignore-case");
+const wordCounter = document.querySelector("#words-counter");
+
+let isChecked="g";
+
+wordInput.addEventListener("input", search);
+ignoreCase.addEventListener("change", checked);
+
+
+function checked() {
+  if (this.checked) {
+        isChecked="gi";
+        search();
+  }else{
+        isChecked="g";
+        search();
+  }
+}
+
+
+function search() {
+      let searchValue = wordInput.value;
+  if(searchValue!==""){
+      let pattern = new RegExp(`${searchValue}`, isChecked);
+
+  paraInput.innerHTML = paraInput.textContent.replace(
+    pattern,
+    "<span class='highlighted-txt'>$&</span>"
+  );
+  let wordCount = document.querySelectorAll(".highlighted-txt");
+  console.log(wordCount.length)
+  wordCounter.innerHTML= wordCount.length;
+  }
+
+}
+    </script>
+</body>
+</html>
